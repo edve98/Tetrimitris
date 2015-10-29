@@ -85,7 +85,8 @@ void Game::start(){
   update();
   loop();
   
-  std::this_thread::sleep_for(std::chrono::seconds(2));
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::cin.get();
   
   return;
 }
@@ -135,7 +136,8 @@ void Game::input(){
   }
   else if(keystroke == KEY_UP){
     while(moveBlockDown()) score += 2; // hard drop + score
-    lockBlock();
+    blockMoved = false;
+    moveBlockDown();
   }
   else if(keystroke == 'p' || keystroke == 'P'){
     pause();
@@ -148,6 +150,10 @@ void Game::input(){
       blockMoved = false;
     }
     else if(CurrentBlock.Cubes[0].x < 0 || CurrentBlock.Cubes[0].x > 9 || CurrentBlock.Cubes[1].x < 0 || CurrentBlock.Cubes[1].x > 9 || CurrentBlock.Cubes[2].x < 0 || CurrentBlock.Cubes[2].x > 9 || CurrentBlock.Cubes[3].x < 0 || CurrentBlock.Cubes[3].x > 9){
+      CurrentBlock.turnCounterClockwise();
+      blockMoved = false;
+    }
+    else if(CurrentBlock.Cubes[0].y < 0 || CurrentBlock.Cubes[1].y < 0 || CurrentBlock.Cubes[2].y < 0 || CurrentBlock.Cubes[3].y < 0){
       CurrentBlock.turnCounterClockwise();
       blockMoved = false;
     }
